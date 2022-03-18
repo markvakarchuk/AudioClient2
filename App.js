@@ -52,10 +52,11 @@ export default class App extends Component {
     if(!this.state.isPlaying){
       console.log('Loading Sound');
       const { sound } = Audio.Sound.createAsync(
-        {uri: this.state.URI,
-          shouldPlay: true,
-          //volume: 1.0,
-          isMuted: false}
+        require('./assets/audio.mp3')
+        // {require: './assets/audio.mp3',
+        //   shouldPlay: true,
+        //   //volume: 1.0,
+        //   isMuted: false}
       );
       this.state.isPlaying = true
       this.soundOBJ = sound
