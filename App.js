@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { Audio } from "expo-av";
-import { render } from 'react-dom';
 
 export default class App extends Component {
   constructor(props) {
@@ -15,9 +14,10 @@ export default class App extends Component {
       rate: 1.0,
       volume: 1.0,
       isMuted: false,
+  };
+  this.playSound = this.playSound.bind(this)
+}
 
-    };
-  }
   componentDidMount() {
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -47,22 +47,24 @@ export default class App extends Component {
     );
   }
   
-  initialStatus = {
-    shouldPlay: true,
-    volume: 1.0,
-    isMuted: false,
-  };
 
   playSound() {
-    console.log('Loading Sound');
-    const { sound } = Audio.Sound.createAsync(
-       {uri: this.state.URI},
-       initialStatus
-    );
-    this.soundOBJ = sound
-
-    console.log('Playing Sound');
-    // sound.playAsync(); 
+    if(!this.state.isPlaying){
+      console.log('Loading Sound');
+      const { sound } = Audio.Sound.createAsync(
+        {uri: this.state.URI,
+          shouldPlay: true,
+          //volume: 1.0,
+          isMuted: false}
+      );
+      this.state.isPlaying = true
+      this.soundOBJ = sound
+      console.log('Playing: ' + this.state.URI);
+    }else{
+      console.log("already playing")
+    }
+    
+    //sound.playAsync(); 
   }
 
 }
